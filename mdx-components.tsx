@@ -9,7 +9,8 @@ import type { MDXComponents } from "mdx/types";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     // Allows customizing built-in components, e.g. to add styling.
-    // h1: ({ children }) => <h1 style={{ fontSize: "100px" }}>{children}</h1>,
+    h2: ({ children }) => <h1 className="font-display text-4xl mb-5">{children}</h1>,
+    p: ({ children }) => <p className="font-body text-lg leading-7 mb-5">{children}</p>,
     ...components,
   };
 }
