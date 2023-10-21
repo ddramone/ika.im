@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { Source_Code_Pro } from 'next/font/google'
+import { Encode_Sans } from 'next/font/google'
 import './globals.css'
 
-const displayFont = Source_Code_Pro({ weight: '900', subsets: ['latin-ext'], variable: '--font-display' })
+const displayFont = Encode_Sans({ weight: '800', subsets: ['latin-ext'], variable: '--font-display' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
