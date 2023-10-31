@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 import createMDX from '@next/mdx'
 import remarkGfm from 'remark-gfm'
+import imageSize from "rehype-img-size";
 
 const nextConfig = {
 
@@ -13,7 +14,7 @@ const nextConfig = {
 const withMDX = createMDX({
     options: {
         remarkPlugins: [remarkGfm],
-        rehypePlugins: [],
+        rehypePlugins: [[imageSize, { dir: 'public' }]],
     }
 })
 

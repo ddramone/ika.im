@@ -3,12 +3,13 @@ import Image from 'next/image'
 
 2 years ago, Ziko, Gego and I went to Zandvoort - a beautiful seaside town in Netherlands. We went there not for surfing, but to change the atmosphere, isolate ourselves from everything else except one big question - what to do with Stack.
 
+<Side>
+![Zaandvort Beach](/zandvoort-beach.jpeg "Zaandvort beach in the Netherlands")
+</Side>
 
 I believe every Startup founder goes through the realization that it's time to burst your own bubble: adding more and more features doesn't mean you're truly advancing your product. Instead team has to pause, step back, and look at things with the fresh perspective. It happened to us as well, but a bit differently - it was quite dramatic, and also somewhat expected.
 
-<Side>
-![Alt text](/zandvoort-beach.jpeg "title")
-</Side>
+
 
 If you aren't familiar, Stack is a Spatial Browser - it accompanies Chrome to create and organize your little cozy corner in the internet. Turns out building browser-like application is quite challenging, and this blog-post is about the technology todays Stack is based on.
 
@@ -28,3 +29,56 @@ Cutting a long story short - it grabbed a lot of attention. As it happened, peop
 
 As the idea grew bigger, so did the team and the codebase. We loaded tons of features onto the initial codebase, but one thing was clear - Electron wasn't the right tool to build a browser-like application.
 
+## In Search of a Better Technology
+
+We spent around 6 month looking for alternative platforms. Using our investor connections from 500 startups and reaching out to experts beyond, we gathered insights. After building several MVPs and analyzing results, (surprise surprise) there are not so many options.
+
+We started prototyping using React Native, taking advantage of its ability to compile for Desktop. Tauri was next in line that sounded promising, even though it was still in Beta.
+
+Meanwhile, we partnered with external companies to create prototypes by directly forking Chromium or using QT.
+
+This probably deserves another blog-post, but in a nutshell, none of these directions could tick all of these following checkboxes:
+
+
+* **Performance**
+Together with many other aspects of performance, one of the key features of Stack is the Panoramic Scroll. As part of our MVP it had to be buttery smooth.
+
+* **Chromium Based**
+React Native and Tauri on macOS uses WebKit. This is not inherently a problem, but as we tried to implement some of Stack's signature features, we often found ourselves restricted. Chromium, on the other hand, was like the swiss army knife we needed - flexibility to isolate sessions from each other, extension support, and most importantly - availability on Windows.
+
+* **Multi platform**
+Having up to 70% of our active users from Windows, we were tempted to support multiple platforms and potentially migrate all of them in the newer version of Stack.  
+
+* **Development Costs**
+On paper, forking Chromium seemed like a dream choice, only if we had unlimited time and key to Uncle Scrooge's money vault. Considering team expertise and size, the commitment in terms of time and financial resources was simply too big to undertake.
+
+
+With a few options on the table, none of them seemed just right. We felt cornered, running out of alternatives. The only logical step forward was to challenge the boundaries of one of the existing choices and see if we could push it beyond its known limits.
+
+
+## Electron
+
+Electron framework has a lot of critical minds laser-pointed to it, and for valid reasons. However, it still remains one of the most popular and widely used frameworks.
+
+It is high likely that you have at least few Electron based apps  sitting in your Dock - VSCode, Discord, MS Teams, Notion, GH Desktop, 1 Password, Figma, Slack, Superhuman - to name few possibilities.
+
+It's not a surprise that these companies faced challenges with Electron, and one way or another they did manage demonstrate the potential when used correctly. The most interesting for us was Figma, since they had faced similar problems with WebViews.
+
+Quote from their 2017 blog post: Introducing BrowserView for Electron
+
+
+> One of our most important contributions to the Electron project is BrowserView, a new way to embed web apps with fewer bugs and improved performance. While Webview is part of the DOM hierarchy, BrowserView exists within the OS window hierarchy. Web apps in a BrowserView run as fast as they do in Chrome.
+
+For a while we ignored this approach, believing it wasn't suited for our specific needs. The challenge was clearly outlined in the same blog post:
+
+> The downside is that positioning and layering BrowserViews become more complex, as the usual HTML and CSS methods can't be applied like they can with a webview. For apps with intricate layering and positioning, this could be a no-go.
+
+In simple terms, the challenge is displaying UI on top of the BrowserView. For Figma, this was a not a big issues. They likely use BrowserViews for each opened file in their app. The only external UI element is the tab-strip on top of the app. The fact that it almost never overlaps with the file-content makes it convenient to use BrowserViews.
+
+For us, the situation was entirely different. Layering UI elements present was only part of the problem. Even BrowserViews  couldn't remain static, because of panoramic scroll behavior of Stack.
+
+## Part 2
+
+In the Part 2 of this blog post (in progress), I'll dive into our journey of crafting yet another prototype of Stack during our retreat in Zaandvort. This time using Electron with BrowserViews. 
+
+As you might guess, experiment was successful. Since then we teamed up with people who originally created BrowserView component with Figma, invested more heavily in Electron. Made few important contributions to the platform by bringing native components to eliminate the biggest performance bottlenecks, soon to be upstreamed to the platform. And today we're about to launch Stack with full support of Chrome Extensions.
