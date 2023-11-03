@@ -4,6 +4,7 @@ import Article from "./article";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.ika.im'),
   title: `Ika's Personal Space`,
   description: 'Javascript, Technology, Personal Reflections',
   icons: ['/images/invader.svg'],
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="w-full max-w-4xl px-20 flex flex-col m-auto">
+    <div className="w-full max-w-4xl px-8 flex flex-col m-auto">
       <header className="flex flex-row-reverse items-start gap-4 my-20 ">
         <div className="flex-grow font-sans text-lg">
           <h1>
