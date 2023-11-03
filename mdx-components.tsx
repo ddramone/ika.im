@@ -10,8 +10,10 @@ import Image, { ImageProps } from "next/image";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     // Allows customizing built-in components, e.g. to add styling.
+    blockquote: ({ children }) => <blockquote className="pl-8 font-body italic text-lg font-normal leading-9 mb-5 border-l border-opacity-20 border-black">{children}</blockquote>,
+    a: (props: any) => <a className="underline" {...props} />,
     h2: ({ children }) => <h1 className="font-display font-bold text-4xl mt-24 mb-10">{children}</h1>,
-    p: ({ children }) => <p className="font-body text-lg font-normal leading-9 mb-5">{children}</p>,
+    p: ({ children }) => <p className="font-body text-xl font-normal leading-9 mb-10">{children}</p>,
     hr: () => <hr className="w-48 h-1 mx-auto my-4 border-0 rounded md:my-10 bg-black opacity-20 " />,
     img: (props: any) => 
       <>

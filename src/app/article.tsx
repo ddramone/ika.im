@@ -61,7 +61,7 @@ export default function Article({
             )}
           </small>
         </header>
-        <p>{summary}</p>
+        <p className="text-lg">{summary}</p>
       </div>
     </article>
   );

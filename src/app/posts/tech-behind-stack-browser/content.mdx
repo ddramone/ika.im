@@ -60,11 +60,11 @@ The most interesting for us was Figma, since they had faced similar problems wit
 
 Quote from their blog post written in 2017 - [Introducing BrowserView for Electron](https://www.figma.com/blog/introducing-browserview-for-electron/)
 
-> "One of our most important contributions to the Electron project is BrowserView, a new way to embed web apps with fewer bugs and improved performance. While Webview is part of the DOM hierarchy, BrowserView exists within the OS window hierarchy. Web apps in a BrowserView run as fast as they do in Chrome."
+> One of our most important contributions to the Electron project is BrowserView, a new way to embed web apps with fewer bugs and improved performance. While Webview is part of the DOM hierarchy, BrowserView exists within the OS window hierarchy. Web apps in a BrowserView run as fast as they do in Chrome.
 
 Even though it sounds exactly what we needed, we had it ignored for quite some time, believing it wasn't suited for our specific needs. The challenge was clearly outlined in the same blog post:
 
-> "The downside is that positioning and layering BrowserViews become more complex, as the usual HTML and CSS methods can't be applied like they can with a webview. For apps with intricate layering and positioning, this could be a no-go."
+> The downside is that positioning and layering BrowserViews become more complex, as the usual HTML and CSS methods can't be applied like they can with a webview. For apps with intricate layering and positioning, this could be a no-go.
 
 
 Let's elaborate on this by using a following example.

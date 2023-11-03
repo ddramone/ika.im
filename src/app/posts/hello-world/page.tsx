@@ -14,7 +14,7 @@ export default function Page() {
         <time dateTime='2023-10-23' className='text-base'>27 October, 2023</time>
         <h1 className="font-display font-bold text-6xl leading-tight tracking-">Hello World</h1>
         
-        <Image src="/images/wave.svg" alt="Hello" width={70} height={10} className="my-14 mx-2" />
+        <Image src="/images/wave.svg" alt="Hello" width={57} height={189} className="my-14 mx-2" />
 
       </header>
       {/* .Header */}

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import { Encode_Sans } from 'next/font/google'
+import { Encode_Sans, Roboto_Flex } from 'next/font/google'
 import './globals.css'
 
 const displayFont = Encode_Sans({ weight: ["800", "600"], subsets: ['latin-ext'], variable: '--font-display' })
+const bodyFont = Roboto_Flex({ variable: '--font-body', subsets: ['latin-ext'], })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${displayFont.variable}`}>{children}</body>
+      <body className={`${displayFont.variable} ${bodyFont.variable}`}>{children}</body>
     </html>
   )
 }

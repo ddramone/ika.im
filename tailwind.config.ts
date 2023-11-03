@@ -11,6 +11,9 @@ const config: Config = {
     extend: {
       fontFamily: {
         display: ['var(--font-display)'],
+        body: ['var(--font-body)', {
+          fontVariationSettings: '"wght" 300',
+        }],
       }
     },
   },
