@@ -3,6 +3,7 @@ import Content from './content.mdx'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.ika.im'),
   title: `Hello World - Ika's Personal Space`,
   icons: ['/images/invader.svg'],
   openGraph: {
