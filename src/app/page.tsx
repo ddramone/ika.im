@@ -62,7 +62,7 @@ export default function Page() {
           headline="Hello World"
           imageSrc="/images/spaceman-waving.svg"
           imageAlt="Spaceman waving"
-          summary="Unconventional journey, technological challenges, and the unexpected success of a seemingly 'dumb' idea"
+          summary="Hey there! I've decided to create my personal space in the internet. I share a little bit about me, my interests, and what to expect."
           published="27 October, 2023"
           link="posts/hello-world"
         />
