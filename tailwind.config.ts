@@ -12,7 +12,7 @@ const config: Config = {
       fontFamily: {
         display: ['var(--font-display)'],
         body: ['var(--font-body)', {
-          fontVariationSettings: '"wght" 300',
+          // fontVariationSettings: '"wght" 300',
         }],
       }
     },

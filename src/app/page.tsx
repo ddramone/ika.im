@@ -30,10 +30,8 @@ export default function Page() {
       <section className="flex flex-col mt-14 gap-24 ">
         
         <Article
-          headline="The Dumbest Idea. Part 2"
-          imageSrc="/images/temp.svg"
-          imageAlt="Space Invader"
-          summary="I share snippets from the codebase and explain how we utilize BrowserViews in electron app" 
+          headline="The Dumbest Idea. Implementation"
+          summary="Technical details of the using BrowserViews, code-snippets, associated challenges and our solutions." 
         />
       
         <Article

@@ -7,8 +7,8 @@ type Props = PropsWithChildren<{
   published?: string;
   link?: string;
   summary: string;
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }>;
 
 export default function Article({
@@ -28,18 +28,20 @@ export default function Article({
       }`}
     >
       <div className="w-full md:order-2 md:w-4/12 relative">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          width={1}
-          height={1}
-          className="w-full h-full md:absolute left-0 bottom-0 object-contain object-left-bottom"
-        />
+        {imageAlt && imageSrc && (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            width={1}
+            height={1}
+            className="w-full h-full md:absolute left-0 bottom-0 object-contain object-left-bottom"
+          />
+        )}
       </div>
 
       <div className="group flex-1 relative">
         <header className="mb-3">
-          <h2 className="font-display text-3xl">
+          <h2 className="font-display font-bold text-3xl">
             {inProgress && headline}
 
             {!inProgress && (

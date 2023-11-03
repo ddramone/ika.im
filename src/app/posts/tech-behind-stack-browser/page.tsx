@@ -5,17 +5,19 @@ export default function Page() {
   return <article className='p-5 flex flex-col items-center'>
     
     {/* Header */}
-    <header className="flex flex-col items-center max-w-5xl text-center m-16">
-      <time dateTime='2023-10-23' className='text-base'>27 October, 2023</time>
-      <h1 className="font-display font-bold text-6xl leading-tight">The Dumbest Idea: <br />Technology Behind Stack Browser</h1>
+    <header className="flex flex-col items-center text-center my-16 w-full">
+      <time dateTime='2023-09-23' className='text-base'>27 September, 2023</time>
+      <h1 className="font-display font-bold text-3xl xl:text-5xl leading-10">The Dumbest Idea: <br />Technology Behind Stack Browser</h1>
 
-      <Image src="/main-illustration.svg" alt="Main Illustration" width={2301} height={801} className="my-14" />
+      <div className='w-full h-60 mt-10 xl:h-[500px] relative'>
+        <Image src="/images/invader-in-sand-2.svg" alt="Space Invader in a sand" fill objectFit='contain' objectPosition='' />
+      </div>
 
     </header>
     {/* .Header */}
 
     {/* Content */}
-    <div className='max-w-[820px]'> 
+    <div className='max-w-md xl:max-w-2xl'> 
       <Content />
     </div>
     {/* .Content */}

@@ -1,12 +1,15 @@
-import Side from '../../components/side'
+import ASide from '../../components/aside'
 import Image from 'next/image'
 
 
-In June, two years ago, my co-founders Ziko, Gego, and I packed our bags for a week-long trip to Zandvoort, a beautiful seaside town in the Netherlands. The place was full of visitors, especially surfers riding the summer waves. However, our mission was different. We were looking for a fresh atmosphere, free from everyday distractions, to focus our thoughts on one important question: What's the next chapter for Stack?
+In June, two years ago, my co-founders [Ziko](https://twitter.com/zikosichi), [Gego](https://twitter.com/ShalvaGegia), and I packed our bags for a week-long trip to Zandvoort, a beautiful seaside town in the Netherlands. The place was full of visitors, especially surfers riding the summer waves. However, our mission was different. We were looking for a fresh atmosphere, free from everyday distractions, to focus our thoughts on one important question: What's the next chapter for Stack?
 
 Adding more and more features doesn't always mean that you're truly advancing the product. There comes a time when a team has to pause, step back, and look at things with a new perspective. Moments of realization like this one bring intertwined feelings of relief and anxiety, I believe many startup founders can resonate with. This time though, for us at Stack, it was different - we knew the challenge was coming.
 
-If you aren't familiar, Stack is a Spatial Browser - it helps you to create and organize a your own cozy corner on the internet.
+<ASide>Stack is a Spatial Browser. It helps you to create and organize a your own cozy corner on the internet.\
+[www.stackbrowser.com](https://www.stackbrowser.com/?ref=ika.im)</ASide>
+
+
 
 By the time of our retreat to Zandvoort, the first version of Stack was already up and running. We now refer to it as Stack Legacy, and it had roughly 15k active global users. However, through our Intercom, we received tons of messages from users pointing out unexpected behaviors, requesting missing features, and, most frequently, expressing concerns about performance.
 
@@ -35,13 +38,13 @@ Meanwhile, we partnered with external companies to create prototypes by directly
 
 This probably deserves another blog post, but in a nutshell, none of these directions could tick all the following checkboxes:
 
-- **Performance** Together with many other aspects of performance, one of the key features of Stack is the Panoramic Scroll. As part of our MVP, it had to be _buttery smooth_.
+- **Performance** - Together with many other aspects of performance, one of the key features of Stack is the Panoramic Scroll. As part of our MVP, it had to be _buttery smooth_.
     
-- **Chromium-based** React Native and Tauri on macOS use WebKit. This is not inherently a problem, but as we tried to implement some of Stack's signature features, we often found ourselves restricted. Chromium, on the other hand, is like a Swiss army knife. It offers the flexibility to isolate sessions from each other, extension support, and compatibility with Windows - to name a few.
+- **Chromium-based** - React Native and Tauri on macOS use WebKit. This is not inherently a problem, but as we tried to implement some of Stack's signature features, we often found ourselves restricted. Chromium, on the other hand, is like a Swiss army knife. It offers the flexibility to isolate sessions from each other, extension support, and compatibility with Windows - to name a few.
     
-- **Multi-platform** Being a small startup with up to 70% of our Stack Legacy users on Windows, we couldn't afford to focus just on one platform. Migrating all our users to the newer version was a crucial business objective.
+- **Multi-platform** - Being a small startup with up to 70% of our Stack Legacy users on Windows, we couldn't afford to focus just on one platform. Migrating all our users to the newer version was a crucial business objective.
     
-- **Development Costs** On paper, forking Chromium seemed like a dream choice, only if we had unlimited time and the key to Uncle Scrooge's money vault. But taking into account our team's expertise, size, and the commitment in both time and funds, we had to find a realistic alternative.
+- **Development Costs** - On paper, forking Chromium seemed like a dream choice, only if we had unlimited time and the key to Uncle Scrooge's money vault. But taking into account our team's expertise, size, and the commitment in both time and funds, we had to find a realistic alternative.
     
 
  With a few options on the table, none of them seemed just right. We found ourselves at a dead-end, running out of alternatives. The only logical step forward was to challenge the boundaries of one of the existing options and see if we could push it beyond its known limits.
@@ -69,12 +72,16 @@ Even though it sounds exactly what we needed, we had it ignored for quite some t
 
 Let's elaborate on this by using a following example.
 
+![](/images/dumbest-idea/extensions-dropdown.png)
+
 
 In this screenshot from Stack, you see a website of a concert venue in Amsterdam. In the top right corner, there's a dropdown list displaying installed extensions. If the content of the website was rendered using a **webview**, implementing the dropdown would be straightforward – just use absolute positioning combined with z-index.
 
-**BrowserView** is different. It's a native component. While you can position it exactly where you want, it always stays on top of everything else. Think of it as a frameless window. So, displaying our dropdown on top of the web content becomes a challenge, unless the dropdown itself is a BrowserView itself, positioned over everything else, including the website's content.
+**BrowserView** is different. It's a native component. While you can position it exactly where you want, it always stays on top of everything else. Think of it as a frameless window. So, displaying our dropdown on top of the web content becomes a challenge, unless the dropdown itself is a BrowserView, positioned over everything else, including the website's content.
 
-I won't go into every little detail, but in order to implement Stack's UI using BrowserViews, practically every UI component would need its own BrowserView. This includes the Card Topbar, Dropdown menus, the Special (command palette tool in Stack), Dock, and even elements like tooltips and toaster messages.
+I won't dive into every little detail, but in order to implement Stack's UI using BrowserViews, practically every layer in UI would need to be wrapped into it's own BrowserView. This includes the Card Topbar, Dropdown menus, the Special (command palette tool in Stack), Dock, and even elements like tooltips and toaster messages.
+
+![UI Elements as Layers](/images/dumbest-idea/stack-layers.png)
 
 In one of the discussions on Reddit I mentioned that we use Electron to build a native-like application. I realize that this statement is misleading without the full context, and also it's only partially true. Yet, one Redditor responded: "...that's probably the dumbest fucking thing I've ever heard on this website and there's a lot of dumb fucking shit..."
 
@@ -82,9 +89,9 @@ And, that's actually true. Two years ago we went to Zandvoort to build yet anoth
 
 - - -
 
-In the second part of this post I **will** demonstrate technical details of the implementation. I'll dive into challenges associated with BrowserViews and our solutions for each of them.
+In the second part of this post I *will* demonstrate technical details of the implementation. I'll dive into challenges associated with BrowserViews and our solutions for each of them.
 
-> Second part: TBD
+> Second part: in progress
 
 
 Fast forward, 2 years later, in August 2023 we launched fully functional Stack, yet still in Beta, with full support of Extensions and multi platform. 
@@ -92,5 +99,3 @@ Fast forward, 2 years later, in August 2023 we launched fully functional Stack, 
 I always felt a discomfort when discussing our technology for a long time. Was it during the hiring process with interviewees, discussions with my friends, or with investors. We knew it was a stupid experiment. But today, I have this weird feeling of a child, who's stupid idea wins. 
 
 I do know that it's not a final version of Stack. People who I respect and learn a lot from tell us that we'll need to migrate to full native, and I absolutely agree. While we're working on to find a market fit, attract talented people, grow our team and business, the solution that we have today is the best, I say it proudly as well as confidently. 
-
-Change my mind.

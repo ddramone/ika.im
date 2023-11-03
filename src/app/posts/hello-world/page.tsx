@@ -11,7 +11,7 @@ export default function Page() {
       {/* Header */}
       <header className="flex flex-col items-start mt-16">
 
-        <time dateTime='2023-10-23' className='text-base'>27 October, 2023</time>
+        <time dateTime='2020-08-08' className='text-base'>8 August, 2020</time>
         <h1 className="font-display font-bold text-6xl leading-tight tracking-">Hello World</h1>
         
         <Image src="/images/wave.svg" alt="Hello" width={57} height={189} className="my-14 mx-2" />
