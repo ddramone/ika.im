@@ -1,5 +1,16 @@
 import Image from 'next/image'
 import Content from './content.mdx'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: `The Dumbest Idea - Technology Behind Stack Browser | Ika's Personal Space`,
+  icons: ['/images/invader.svg'],
+  openGraph: {
+    images: [
+      '/images/invader-in-sand-2.svg'
+    ]
+  }
+}
 
 export default function Page() {
   return <article className='p-5 flex flex-col items-center'>
