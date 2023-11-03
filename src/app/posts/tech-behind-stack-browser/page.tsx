@@ -7,9 +7,9 @@ export default function Page() {
     {/* Header */}
     <header className="flex flex-col items-center max-w-5xl text-center m-16">
       <time dateTime='2023-10-23' className='text-base'>27 October, 2023</time>
-      <h1 className="font-display text-6xl leading-tight tracking-">The Dumbest Idea: <br />Technology Behind Stack Browser</h1>
+      <h1 className="font-display font-bold text-6xl leading-tight">The Dumbest Idea: <br />Technology Behind Stack Browser</h1>
 
-      <Image src="/main-illustration.svg" alt="Main Illustration" width={2301} height={801} className="my-28" />
+      <Image src="/main-illustration.svg" alt="Main Illustration" width={2301} height={801} className="my-14" />
 
     </header>
     {/* .Header */}

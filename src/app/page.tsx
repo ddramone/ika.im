@@ -3,14 +3,14 @@ import Article from "./article";
 
 export default function Page() {
   return (
-    <div className="w-full max-w-5xl px-20 flex flex-col m-auto">
+    <div className="w-full max-w-4xl px-20 flex flex-col m-auto">
 
       <header className="flex flex-row-reverse items-start gap-4 my-20 ">
         <div className="flex-grow font-sans text-lg">
           <h1>
             Blog by{" "}
             <a
-              className="underline text-orange-500"
+              className="underline text-orange-600"
               href="https://twitter.com/itsikap"
             >
               Ika Pkhakadze
@@ -32,25 +32,26 @@ export default function Page() {
         <Article
           headline="The Dumbest Idea. Part 2"
           imageSrc="/images/temp.svg"
+          imageAlt="Space Invader"
           summary="I share snippets from the codebase and explain how we utilize BrowserViews in electron app" 
-          published="27 October, 2023"
-          link="test"
         />
       
         <Article
           headline={<>The Dumbest Idea. <br /> Tech behind Stack Browser</>}
           imageSrc="/images/invader-in-sand.svg"
+          imageAlt="Forming Space Invader in a sand"
           summary="Unconventional journey, technological challenges, and the unexpected success of a seemingly 'dumb' idea" 
           published="27 October, 2023"
-          link="test"
+          link="posts/tech-behind-stack-browser"
         />
 
         <Article
           headline="Hello World"
           imageSrc="/images/spaceman-waving.svg"
+          imageAlt="Spaceman waving"
           summary="Unconventional journey, technological challenges, and the unexpected success of a seemingly 'dumb' idea" 
           published="27 October, 2023"
-          link="test"
+          link="posts/hello-world"
         />
       </section>
 
