@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Encode_Sans } from 'next/font/google'
 import './globals.css'
 
-const displayFont = Encode_Sans({ weight: '800', subsets: ['latin-ext'], variable: '--font-display' })
+const displayFont = Encode_Sans({ weight: ["800", "600"], subsets: ['latin-ext'], variable: '--font-display' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
