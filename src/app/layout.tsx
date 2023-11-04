@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Encode_Sans, Roboto_Flex } from 'next/font/google'
 import './globals.css'
 

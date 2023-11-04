@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.ika.im'),
   title: `The Dumbest Idea - Technology Behind Stack Browser | Ika's Personal Space`,
-  icons: ['/images/invader.svg'],
+  icons: ['/favicon.svg'],
   openGraph: {
     images: [
       '/images/invader-in-sand-2.svg'
