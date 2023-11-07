@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   icons: ['/favicon.svg'],
   openGraph: {
     images: [
-      '/images/invader-in-sand-2.svg'
+      '/images/dumbest-idea/og-invader-in-sand.png'
     ]
   }
 }
