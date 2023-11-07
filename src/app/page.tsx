@@ -55,7 +55,7 @@ export default function Page() {
           imageSrc="/images/invader-in-sand.svg"
           imageAlt="Forming Space Invader in a sand"
           summary="Unconventional journey, technological challenges, and the unexpected success of a seemingly 'dumb' idea"
-          published="27 October, 2023"
+          published="23 September, 2023"
           link="posts/tech-behind-stack-browser"
         />
 
@@ -64,7 +64,7 @@ export default function Page() {
           imageSrc="/images/spaceman-waving.svg"
           imageAlt="Spaceman waving"
           summary="Hey there! I've decided to create my personal space in the internet. I share a little bit about me, my interests, and what to expect."
-          published="27 October, 2023"
+          published="8 August, 2022"
           link="posts/hello-world"
         />
       </section>

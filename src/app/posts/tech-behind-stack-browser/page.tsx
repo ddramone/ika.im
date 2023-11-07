@@ -18,7 +18,7 @@ export default function Page() {
     
     {/* Header */}
     <header className="flex flex-col items-center text-center my-16 w-full">
-      <time dateTime='2023-09-23' className='text-base'>27 September, 2023</time>
+      <time dateTime='2023-09-23' className='text-base'>23 September, 2023</time>
       <h1 className="font-display font-bold text-3xl xl:text-5xl leading-10">The Dumbest Idea: <br />Technology Behind Stack Browser</h1>
 
       <div className='w-full h-60 mt-10 xl:h-[500px] relative'>
