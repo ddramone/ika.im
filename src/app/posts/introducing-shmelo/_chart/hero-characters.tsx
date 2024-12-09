@@ -44,8 +44,6 @@ export default function HeroCharacters() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  console.log(isInView);
-
   return (
     <div
       ref={ref}
