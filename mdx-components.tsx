@@ -10,7 +10,7 @@ import Image, { ImageProps } from "next/image";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     // Allows customizing built-in components, e.g. to add styling.
-    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+    strong: ({ children }) => <strong className="font-medium">{children}</strong>,
     li: ({ children }) => <li className="pl-2 -mb-4">{children}</li>,
     ul: ({ children }) => <ul className="list-disc ml-10 mb-10">{children}</ul>,
     blockquote: ({ children }) => <blockquote className="ml-8 pl-8 font-italic text-lg border-l border-opacity-20 border-black">{children}</blockquote>,
@@ -20,7 +20,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </span>
       <span className="absolute z-10 inset-0"></span>
     </a>,
-    h2: ({ children }) => <h1 className="font-display font-bold text-4xl mt-24 mb-10">{children}</h1>,
+    h2: ({ children }) => <h1 className="font-display font-bold text-3xl mt-24 mb-10">{children}</h1>,
     p: ({ children }) => <p className=" text-lg font-light leading-7 mb-6">{children}</p>,
     hr: () => <hr className="w-48 h-1 mx-auto my-4 border-0 rounded md:my-10 bg-black opacity-20 " />,
     em: ({ children }) => <em className="font-italic">{children}</em>,

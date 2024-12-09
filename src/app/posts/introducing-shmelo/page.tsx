@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.ika.im'),
   title: `Never let your friends forget who is the winner`,
-  description: `Shmelo is a playful leaderboard app that tracks scores for any competitive game using the “elo” ranking system`,
+  description: `Building Shmelo - playful leaderboard app that tracks scores for any competitive game using the “elo” ranking system`,
   keywords: "leaderboard, digital scoreboard, board games ranking,  tennis ranking, padel ranking, elo rating system, free game scoreboard, game statistics, player leaderboard",
   icons: ['/favicon.svg'],
   openGraph: {
