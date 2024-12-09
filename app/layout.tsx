@@ -2,23 +2,27 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
+import PlausibleProvider from "next-plausible";
 import Footer from "./components/footer";
-import Logo from "./components/logo";
 import "./global.css";
 import { baseUrl } from "./sitemap";
-import PlausibleProvider from "next-plausible";
+
+
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: {
-    default: "Next.js Portfolio Starter",
-    template: "%s | Next.js Portfolio Starter",
+  icons: {
+    icon: "/favicon.svg",
   },
-  description: "This is my portfolio.",
+  title: {
+    default: "Ika's Personal Space",
+    template: "%s | Ika's Personal Space",
+  },
+  description: "Javascript, Technology, Personal Reflections",
   openGraph: {
-    title: "My Portfolio",
-    description: "This is my portfolio.",
+    title: "Ika's Personal Space",
+    description: "Javascript, Technology, Personal Reflections",
     url: baseUrl,
-    siteName: "My Portfolio",
+    siteName: "Ika's Personal Space",
     locale: "en_US",
     type: "website",
   },
