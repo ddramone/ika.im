@@ -34,7 +34,8 @@ export default function Article({
             alt={imageAlt}
             width={1}
             height={1}
-            className="w-full h-full md:absolute left-0 bottom-0 object-contain object-left-bottom"
+            className="w-full h-full md:absolute left-0 bottom-0 object-contain object-left-bottom animate-fade animate-duration-75 animate-delay-100"
+            loading="lazy"
           />
         )}
       </div>
