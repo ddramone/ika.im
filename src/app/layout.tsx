@@ -1,4 +1,4 @@
-import { Encode_Sans, Roboto_Flex, Inter, Newsreader } from "next/font/google";
+import { Encode_Sans, Inter, Arsenal } from "next/font/google";
 import "./globals.css";
 import PlausibleProvider from "next-plausible";
 
@@ -13,8 +13,11 @@ const bodyFont = Inter({
   subsets: ["latin-ext"],
 });
 
-const italicFont = Newsreader({
+// Archivo
+// Arsenal
+const italicFont = Inter({
   variable: "--font-italic",
+  weight: "400",
   subsets: ["latin-ext"],
 });
 

@@ -12,7 +12,7 @@ const config: Config = {
       fontFamily: {
         display: ['var(--font-display)'],
         body: ['var(--font-body)'],
-        italic: ['var(--font-italic)'],
+        // italic: ['var(--font-italic)'],
       }
     },
   },
