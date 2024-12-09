@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.ika.im'),
   title: `Hello World - Ika's Personal Space`,
   icons: ['/favicon.svg'],
+
   openGraph: {
     images: [
       '/images/og-hello-world.png'

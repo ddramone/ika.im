@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.ika.im'),
   title: `The Dumbest Idea - Technology Behind Stack Browser | Ika's Personal Space`,
   icons: ['/favicon.svg'],
+
   openGraph: {
     images: [
       '/images/dumbest-idea/og-invader-in-sand.png'

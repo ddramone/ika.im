@@ -1,9 +1,9 @@
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
+import { useRef } from "react";
+import King from "./_assets/king";
 import Queen from "./_assets/queen";
 import Racket from "./_assets/racket";
 import Sword from "./_assets/sword";
-import King from "./_assets/king";
-import { useRef } from "react";
 
 const baseDelay = 0.2;
 

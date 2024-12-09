@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: `Building Shmelo - playful leaderboard app that tracks scores for any competitive game using the “elo” ranking system`,
   keywords: "leaderboard, digital scoreboard, board games ranking,  tennis ranking, padel ranking, elo rating system, free game scoreboard, game statistics, player leaderboard",
   icons: ['/favicon.svg'],
+
   openGraph: {
     images: [
       '/images/shmelo/og-podium.png'

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: `Ika's Personal Space`,
   description: 'Javascript, Technology, Personal Reflections',
   icons: ['/favicon.svg'],
+
   openGraph: {
     images: [
       '/images/og-hello-world.png'
