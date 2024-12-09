@@ -35,7 +35,7 @@ export default function Page() {
         <Image
           src="./images/invader.svg"
           width={55}
-          height={60}
+          height={49}
           alt="Space Invader"
         />
       </header>
