@@ -13,6 +13,12 @@ const config: Config = {
         display: ['var(--font-display)'],
         body: ['var(--font-body)'],
         // italic: ['var(--font-italic)'],
+      },
+      colors: {
+        background: '#fefced',
+        accent: '#ea580c',
+        stroke: '#414141',
+        muted: '#d9cebd',
       }
     },
   },

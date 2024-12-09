@@ -13,6 +13,8 @@
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.6",
     "@types/mdx": "^2.0.9",
+    "framer-motion": "^11.13.1",
+    "motion": "^11.13.1",
     "next": "13.5.6",
     "next-plausible": "^3.11.3",
     "react": "^18",

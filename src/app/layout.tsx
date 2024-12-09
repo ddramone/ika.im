@@ -13,14 +13,6 @@ const bodyFont = Inter({
   subsets: ["latin-ext"],
 });
 
-// Archivo
-// Arsenal
-const italicFont = Inter({
-  variable: "--font-italic",
-  weight: "400",
-  subsets: ["latin-ext"],
-});
-
 export default function RootLayout({
   children,
 }: {
@@ -29,7 +21,7 @@ export default function RootLayout({
   return (
     <PlausibleProvider domain="ika.im">
       <html lang="en">
-        <body className={`${displayFont.variable} ${bodyFont.variable} ${italicFont.variable} font-body`}>
+        <body className={`${displayFont.variable} ${bodyFont.variable} font-body`}>
           {children}
         </body>
       </html>
