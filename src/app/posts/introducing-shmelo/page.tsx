@@ -28,7 +28,7 @@ export default function Page() {
         <time dateTime='2024-12-09' className='text-base'>9 December, 2024</time>
         <h1 className="font-display font-bold text-6xl leading-tight tracking-">Never let your friends forget who is the winner</h1>
 
-        <Image src="/images/shmelo/podium.svg" alt="Enjoying the victory on the podium" width={400} height={256} className="my-14 mx-2" />
+        <Image src="/images/shmelo/podium.svg" alt="Enjoying the victory on the podium" width={400} height={245} className="my-14 mx-2" />
         
       </header>
       {/* .Header */}
