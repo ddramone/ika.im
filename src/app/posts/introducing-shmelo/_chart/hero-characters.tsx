@@ -42,8 +42,7 @@ function AnimatedIcon({
 
 export default function HeroCharacters() {
   const ref = useRef(null);
-  const ref2 = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   console.log(isInView);
 
