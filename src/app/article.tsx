@@ -6,7 +6,7 @@ type Props = PropsWithChildren<{
   headline: string | ReactNode;
   published?: string;
   link?: string;
-  summary: string;
+  summary: string | ReactNode;
   imageSrc?: string;
   imageAlt?: string;
 }>;
@@ -27,7 +27,7 @@ export default function Article({
         inProgress && `opacity-20`
       }`}
     >
-      <div className="w-full md:order-2 md:w-4/12 relative">
+      <div className="w-full md:order-2 md:w-4/12 relative ">
         {imageAlt && imageSrc && (
           <Image
             src={imageSrc}
@@ -41,7 +41,7 @@ export default function Article({
 
       <div className="group flex-1 relative">
         <header className="mb-3">
-          <h2 className="font-display font-bold text-3xl">
+          <h2 className="font-display font-bold text-3xl mb-1  ">
             {inProgress && headline}
 
             {!inProgress && (

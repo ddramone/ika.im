@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="w-full max-w-4xl px-8 flex flex-col m-auto pb-20">
+    <div className="flex flex-col w-full max-w-4xl px-8 pb-20 m-auto">
       <header className="flex flex-row-reverse items-start gap-4 my-20 ">
         <div className="flex-grow font-sans text-lg">
           <h1>
             Blog by{" "}
             <a
-              className="underline text-orange-600"
+              className="text-orange-600 underline"
               href="https://twitter.com/itsikap"
             >
               Ika Pkhakadze
@@ -40,12 +40,18 @@ export default function Page() {
         />
       </header>
 
-      <section className="flex flex-col mt-14 gap-24 ">
-        <Article
-          headline="The Dumbest Idea. Implementation"
-          summary="Technical details of the using BrowserViews, code-snippets, associated challenges and our solutions."
+      <section className="flex flex-col gap-24 mt-14 ">
+
+      <Article
+          headline={<>Never let your friends <br /> forget who is the winner</>}
+          imageSrc="/images/shmelo/podium.svg"
+          imageAlt="Enjoying the victory on the podium"
+          summary="Shmelo is a playful leaderboard app that tracks scores for any competitive game using the “elo” ranking system."
+          published="9 December, 2024"
+          link="posts/introducing-shmelo"
         />
 
+      
         <Article
           headline={
             <>
