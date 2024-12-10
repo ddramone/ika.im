@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/images/hello-world/og-hello-world.png'],
+    creator: '@itsikap',
+  },
   robots: {
     index: true,
     follow: true,
