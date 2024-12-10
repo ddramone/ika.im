@@ -32,9 +32,9 @@ export function BlogPosts() {
                 </p>
               </div>
               <div className="relative h-52 max-w-md order-0 md:order-2 w-full md:h-full">
-                {post.metadata.image && (
+                {post.metadata["home-image"] && (
                   <Image
-                    src={post.metadata.image}
+                    src={post.metadata["home-image"]}
                     alt={`Cover image for ${post.metadata.title}`}
                     fill
                     className="object-contain object-left-bottom"

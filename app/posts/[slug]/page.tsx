@@ -26,7 +26,6 @@ export function generateMetadata({ params }) {
     title,
     publishedAt: publishedTime,
     summary: description,
-    'og:image': ogImage,
     image,
   } = post.metadata as any
   
@@ -41,15 +40,16 @@ export function generateMetadata({ params }) {
       url: `${baseUrl}/blog/${post.slug}`,
       images: [
         {
-          url: ogImage,
+          url: image,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
+      creator: '@itsikap',
       title,
       description,
-      images: [ogImage || image],
+      images: [image],
     },
   }
 }
@@ -77,11 +77,11 @@ export default function Blog({ params }) {
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/blog/${post.slug}`,
-            author: {
-              '@type': 'Person',
-              name: 'My Portfolio',
-            },
+            url: `${baseUrl}/posts/${post.slug}`,
+            // author: {
+            //   '@type': 'Person',
+            //   name: 'My Portfolio',
+            // },
           }),
         }}
       />
