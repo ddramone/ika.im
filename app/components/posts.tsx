@@ -20,24 +20,25 @@ export function BlogPosts() {
           >
             <article className="grid grid-cols-1 md:grid-cols-[5fr_3fr] gap-6 items-start">
               <div className='order-1'>
-                <h2 className="text-xl font-semibold  transition-colors text-balance group-hover:underline" >
+                <h2 className="text-xl font-bold transition-colors text-balance group-hover:underline" >
                   {post.metadata.title}
                 </h2>
 
-                <time className="text-sm text-gray-500 block mt-1">
+                <time className="block mt-1 text-sm text-gray-500">
                   {formatDate(post.metadata.publishedAt)}
                 </time>
-                <p className="mt-3 text-gray-600">
+                <p className="mt-3 text-gray-600 text-pretty">
                   {post.metadata.summary}
                 </p>
               </div>
-              <div className="relative h-52 max-w-md order-0 md:order-2 w-full md:h-full">
+              <div className="relative w-full max-w-md h-52 order-0 md:order-2 md:h-full">
                 {post.metadata["home-image"] && (
                   <Image
                     src={post.metadata["home-image"]}
                     alt={`Cover image for ${post.metadata.title}`}
                     fill
-                    className="object-contain object-left-bottom"
+                    placeholder='empty'
+                    className="object-contain object-left-bottom rotate-y"
                   />
                 )}
               </div>

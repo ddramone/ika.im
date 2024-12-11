@@ -16,7 +16,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
@@ -28,7 +29,7 @@ export function generateMetadata({ params }) {
     summary: description,
     image,
   } = post.metadata as any
-  
+
   return {
     title,
     description,
@@ -37,7 +38,7 @@ export function generateMetadata({ params }) {
       description,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/posts/${post.slug}`,
       images: [
         {
           url: image,
@@ -54,7 +55,8 @@ export function generateMetadata({ params }) {
   }
 }
 
-export default function Blog({ params }) {
+export default async function Blog(props) {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
@@ -85,7 +87,7 @@ export default function Blog({ params }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="text-3xl font-semibold tracking-tighter title">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">

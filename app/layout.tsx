@@ -6,7 +6,8 @@ import PlausibleProvider from "next-plausible";
 import Footer from "./components/footer";
 import "./global.css";
 import { baseUrl } from "./sitemap";
-
+import Logo from "./components/logo";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -27,9 +28,9 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    images: ['/images/hello-world/og-hello-world.png'],
-    creator: '@itsikap',
+    card: "summary_large_image",
+    images: ["/images/hello-world/og-hello-world.png"],
+    creator: "@itsikap",
   },
   robots: {
     index: true,
@@ -61,8 +62,29 @@ export default function RootLayout({
           GeistMono.variable
         )}
       >
-        <body className="antialiased px-8 max-w-lg md:max-w-2xl  mt-8 mx-auto">
-          {children}
+        <body className="px-8 mx-auto mt-8 max-w-lg antialiased md:max-w-2xl">
+          <header className="flex gap-4 items-center my-10 h-20">
+            <Link href="/">
+              <Logo />
+            </Link>
+            <div className="flex-grow font-sans text-base">
+              <h1>
+                Blog by{" "}
+                <a
+                  className="text-orange-600 underline"
+                  href="https://twitter.com/itsikap"
+                >
+                  Ika Pkhakadze
+                </a>
+              </h1>
+              <p className="text-sm">
+                Javascript, Technology, Personal Reflections
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="my-8">{children}</div>
+          </section>
 
           <Footer />
           <SpeedInsights />
