@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { formatDate, getBlogPosts } from 'app/posts/utils'
-import Image from 'next/image'
+import Link from 'next/link'
 
 export function BlogPosts() {
   let allBlogs = getBlogPosts()
@@ -31,16 +30,11 @@ export function BlogPosts() {
                   {post.metadata.summary}
                 </p>
               </div>
-              <div className="relative w-full max-w-md h-52 order-0 md:order-2 md:h-full">
-                {post.metadata["home-image"] && (
-                  <Image
-                    src={post.metadata["home-image"]}
-                    alt={`Cover image for ${post.metadata.title}`}
-                    fill
-                    placeholder='empty'
-                    className="object-contain object-left-bottom rotate-y"
-                  />
-                )}
+              <div className="relative w-full max-w-md h-52 order-0 md:order-2 md:h-full bg-contain bg-bottom bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${post.metadata["home-image"]})`,
+                  backgroundSize: 'contain',
+                }}>
               </div>
             </article>
           </Link>

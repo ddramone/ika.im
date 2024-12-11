@@ -6,7 +6,7 @@ image: '/images/dumbest-idea/og-invader-in-sand.png'
 home-image: '/images/dumbest-idea/invader-in-sand.svg'
 ---
 
-![](/images/dumbest-idea/invader-in-sand-2.svg)
+<Image src="/images/dumbest-idea/invader-in-sand-2.svg" alt="Invader in sand" width={608} height={231} />
 
 In June, two years ago, my co-founders [Ziko](https://twitter.com/zikosichi), [Gego](https://twitter.com/ShalvaGegia), and I packed our bags for a week-long trip to Zandvoort, a beautiful seaside town in the Netherlands. The place was full of visitors, especially surfers riding the summer waves. However, our mission was different. We were looking for a fresh atmosphere, free from everyday distractions, to focus our thoughts on one important question: What's the next chapter for Stack?
 
@@ -78,8 +78,7 @@ Even though it sounds exactly what we needed, we had it ignored for quite some t
 
 Let's elaborate on this by using a following example.
 
-![](/images/dumbest-idea/extensions-dropdown.png)
-
+<Image src="/images/dumbest-idea/extensions-dropdown.png" alt="Extensions Dropdown" width={608} height={430} />
 
 In this screenshot from Stack, you see a website of a concert venue in Amsterdam. In the top right corner, there's a dropdown list displaying installed extensions. If the content of the website was rendered using a **webview**, implementing the dropdown would be straightforward – just use absolute positioning combined with z-index.
 
@@ -87,7 +86,7 @@ In this screenshot from Stack, you see a website of a concert venue in Amsterdam
 
 I won't dive into every little detail, but in order to implement Stack's UI using BrowserViews, practically every layer in UI would need to be wrapped into it's own BrowserView. This includes the Card Topbar, Dropdown menus, the Special (command palette tool in Stack), Dock, and even elements like tooltips and toaster messages.
 
-![UI Elements as Layers](/images/dumbest-idea/stack-layers.png)
+<Image src="/images/dumbest-idea/stack-layers.png" alt="Stack Layers" width={608} height={407} />
 
 In one of the discussions on Reddit I mentioned that we use Electron to build a native-like application. I realize that this statement is misleading without the full context, and also it's only partially true. Yet, one Redditor responded: "...that's probably the dumbest fucking thing I've ever heard on this website and there's a lot of dumb fucking shit..."
 
