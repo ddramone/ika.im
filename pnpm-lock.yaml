@@ -57,9 +57,6 @@ dependencies:
   tailwindcss:
     specifier: 4.0.0-alpha.13
     version: 4.0.0-alpha.13
-  tailwindcss-animated:
-    specifier: ^1.1.2
-    version: 1.1.2(tailwindcss@4.0.0-alpha.13)
   typescript:
     specifier: 5.3.3
     version: 5.3.3
@@ -1766,14 +1763,6 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-    dev: false
-
-  /tailwindcss-animated@1.1.2(tailwindcss@4.0.0-alpha.13):
-    resolution: {integrity: sha512-SI4owS5ojserhgEYIZA/uFVdNjU2GMB2P3sjtjmFA52VxoUi+Hht6oR5+RdT+CxrX9cNNYEa+vbTWHvN9zbj3w==}
-    peerDependencies:
-      tailwindcss: '>=3.1.0'
-    dependencies:
-      tailwindcss: 4.0.0-alpha.13
     dev: false
 
   /tailwindcss@4.0.0-alpha.13:
