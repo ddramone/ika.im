@@ -87,7 +87,7 @@ export default async function Blog(props) {
           }),
         }}
       />
-      <h1 className="text-3xl font-semibold tracking-tighter title">
+      <h1 className="text-3xl font-bold tracking-tighter title">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
