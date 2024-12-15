@@ -32,7 +32,7 @@ export default function Footer() {
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href="https://bsky.app/profile/ikap7e.bsky.social"
+            href="https://bsky.app/profile/ika.im"
           >
             bluesky
           </a>
