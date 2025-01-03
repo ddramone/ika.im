@@ -17,7 +17,7 @@
   --sh-entity: #e25a1c;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --sh-class: #4c97f8;
     --sh-identifier: white;
@@ -27,7 +27,7 @@
   html {
     color-scheme: dark;
   }
-}
+} */
 
 html {
   min-width: 360px;
@@ -65,7 +65,7 @@ html {
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  @apply px-1 py-0.5 rounded-lg border bg-neutral-50 border-neutral-200;
 }
 
 .prose pre code {
@@ -104,7 +104,7 @@ html {
 }
 
 .prose strong {
-  @apply font-medium;
+  @apply font-semibold;
 }
 
 .prose ul {
@@ -113,6 +113,10 @@ html {
 
 .prose ol {
   @apply pl-6 list-decimal;
+}
+
+.prose hr {
+  @apply my-6 border-none;
 }
 
 .prose > :first-child {

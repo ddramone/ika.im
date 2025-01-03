@@ -1,0 +1,151 @@
+---
+title: 'Bitmasking: Storing Multiple States in a Single Integer' 
+publishedAt: '2025-01-03'
+summary: 'Elegant and super-useful technique to store multiple on/off states into a single value.'
+home-image: '/images/bitmasking/toggling-switches.svg'
+image: '/images/bitmasking/og-bitmasking.png'
+---
+
+<Image src="/images/bitmasking/toggling-switches.svg" alt="podium" width={653} height={399} placeholder="empty"  />
+
+--- 
+
+Ever written `chmod 775`?
+
+If you’ve been around unix-like systems, chances are you have. This command grants read, write, and execute permissions to files for specific groups. But have you ever wondered what those numbers represent and how they work?
+
+The technique is called **Bitmasking**, and I find it to be super elegant and surprisingly handy for a bunch of use cases. Let's dive in.
+
+## What's Bitmasking?
+
+Imagine you need to store multiple on/off states in an app - like feature flags. Bitmasking lets you do that by only using a single number.
+
+File permissions are a good example because of its simplicity. Let’s see how a single number can hold the on/off states for **Read**, **Write**, and **Execute** flags.
+
+
+#### How it works
+
+Each flag is assigned a number (1, 2, 4, 8, 16, etc.), following the pattern of powers of two. For our case:
+```
+Execute = 1  // 2^0
+Write = 2    // 2^1
+Read = 4     // 2^2
+```
+
+To store which flags are active, you simply **add up the values** of the ones that are "on." For example, if Read (4) and Execute (1) are on, you add 4 + 1 and store the result as 5.
+
+**Why powers of two?** - Because each combination produces a unique total. The number 5 will always mean `Read + Execute`, never anything else.
+
+--- 
+
+Pretty cool, right?
+
+---
+
+It gets even better when you convert these numbers to binary:
+
+The decimal number 5 in binary is `101`. Each bit in this binary number represents our flags. `1` means its On and `0` means Off.
+
+The first bit (right to left) is for **Execute**, the second bit is for **Write**, and the third bit is for **Read**.
+
+
+<BitmaskExample />
+- - -
+
+## How to use Bitmasking in your code
+
+This technique is incredibly useful in various scenarios like storing user permissions or feature toggles. Its super useful in game development, where you can use it to track various character states like invincibility or speed boosts.
+
+In one of my recent projects I’ve used it to detect which meta keys (`⌘ ⇧ ⌥ ⌃`) are pressed at the same time to handle complex keyboard shortcuts. 
+
+And the implementation part is actually quite simple. I'll show you how to do it in Javascript.
+
+### How to define flags
+
+Each flag should be assigned a unique power of two. This ensures that they occupy their own bit position without overlapping others. Instead of manually assigning values like 1, 2, 4, 8, etc., we can utilize the bitwise left shift operator `<<`.
+
+`<<` operator shifts bits by n places to the left, filling the new rightmost bits with zeros.
+
+```ts
+const Flags = {
+  DarkMode:      1 << 0, // 1 (0001)
+  OfflineMode:   1 << 1, // 2 (0010)
+  DebugMode:     1 << 2, // 4 (0100)
+  Notifications: 1 << 3  // 8 (1000)
+};
+```
+
+### How to combine multiple flags as a single value
+
+To combine multiple flags (i.e., turn them "on"), use the bitwise OR operator `|`. This operator compares each bit of two numbers and sets the bit to 1 if either of the bits in that position is 1.
+
+```
+1 | 4 // 5    In binary: 0001 | 0100 = 0101  
+2 | 8 // 10   In binary: 0010 | 1000 = 1010 
+3 | 8 // 11   In binary: 0011 | 1000 = 1011
+```
+
+in practice, it looks like this:
+
+```js
+const userFlags = Flags.DarkMode | Flags.OfflineMode;
+```
+
+_Technically You could simply add the values. But using `|` operator is better to not to mess up with the result by accidentally adding the same flag twice._
+
+### Check if a Flag is On
+
+Finally, to verify whether a specific flag is set, use the bitwise AND (&) operator. It compares each bit of two numbers and sets the resulting bit to 1 only if both numbers have a 1 in that position.
+
+```
+const hasDarkMode = userFlags & Flags.DarkMode !== 0
+```
+
+- - -
+
+The whole code looks like this:
+
+
+```js
+let userFlags = 0;
+
+function enableFlag(flag) {
+  userFlags = userFlags | flag // or userFlags |= flag
+}
+
+function disableFlag(flag) {
+  userFlags = userFlags & ~flag // or userFlags &= ~flag
+}
+
+function isFlagOn(flag) { 
+  return userFlags & flag !== 0
+}
+
+enableFlag(Flags.DarkMode)
+enableFlag(Flags.OfflineMode)
+
+isFlagOn(Flags.DarkMode) // true
+isFlagOn(Flags.OfflineMode) // true
+isFlagOn(Flags.Notifications) // false
+
+```
+
+And, that's it. By combining these bitwise operators — left shift `<<`, OR `|`, AND `&`, and NOT `~` — you can efficiently manage multiple flags within a single integer. This approach is both memory-efficient, performant.
+
+If you have a good understanding how things work in binary, there's absolutely no magic happening here, but I still love the simplicity of it.
+
+
+### Limitations
+
+Be aware that this method is reliable for up to 31 flags.
+
+**Why?** Integers use 32 bits, with the first bit serving as the sign bit, leaving 31 bits available for flags.
+
+If you need to manage more than 31 flags, consider using BigInt (though it may be less performant) or alternative data structures.
+
+--- 
+
+
+
+
+

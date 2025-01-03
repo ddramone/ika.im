@@ -2,10 +2,12 @@ import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/posts/utils'
 import { baseUrl } from 'app/sitemap'
-import Characters from '../content/shmelo/characters'
+import ShmeloCharacters from '../content/shmelo/characters'
+import BitmaskExample from '../content/bitmask/bitmask-example'
 
 const components = {
-  ShmeloCharacters: Characters
+  ShmeloCharacters,
+  BitmaskExample
 }
 
 export async function generateStaticParams() {
