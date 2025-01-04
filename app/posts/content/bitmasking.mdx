@@ -139,7 +139,7 @@ If you have a good understanding how things work in binary, there's absolutely n
 
 Be aware that this method is reliable for up to 31 flags.
 
-**Why?** Integers use 32 bits, with the first bit serving as the sign bit, leaving 31 bits available for flags.
+**Why?** In Javascript bitwise operators work only on 32 bits, transforming numbers into signed integers under the hood. First bit serves as the sign bit, leaving only 31 bits available for flags.
 
 If you need to manage more than 31 flags, consider using BigInt (though it may be less performant) or alternative data structures.
 
