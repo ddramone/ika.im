@@ -269,13 +269,13 @@ child1.getComputedHeight()
 
 ```
 
-We created `<View>` component to abstract yoga node creation. `<View>` can be nested to create complex layouts. Then we always use `<BrowserView>` component as a direct child of `<View>`. It grabs the size and position of its parent `<View>` yoga node and applies it to the BrowserView instance by sending them to the main process via ipc.
+We created `<View>` component to abstract yoga node creation. `<View>` can be nested to create complex layouts. Then, we always use our `<BrowserWindow>` component as a direct child of `<View>`. It grabs the size and position of its parent `<View>` yoga node and applies it to the BrowserView instance by sending them to the main process via ipc.
 
 ```tsx
 <View ...>
   <View ...>
     <View ...>
-      <BrowserView />
+      <BrowserWindow />
     </View>
   </View>
 </View>
