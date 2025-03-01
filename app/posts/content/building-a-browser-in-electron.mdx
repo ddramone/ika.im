@@ -11,6 +11,10 @@ This post is about how we at Stack built a browser using [ElectronJS](https://ww
 
 If you're curious why we chose ElectronJS in the first place, I've written about our journey here: [Technology Behind Stack Browser](https://www.ika.im/posts/tech-behind-stack-browser)
 
+<Disclaimer>
+Stack Browser as its original form is no longer maintained. However [@Ziko](https://x.com/zikosichi) is working on a newer version - [@SkyOS](https://x.com/skyos_computer). Follow him along on his journey!
+</Disclaimer>
+
 I'll skip the basics and assume you're already familiar with ElectronJS and how the main and renderer processes work.
 
 Alright, let's dive in.
@@ -51,7 +55,9 @@ UI elements that need to appear above the web-site content - such as dropdowns, 
 
 This post is purely about how we solved this challenge.
 
-***Disclaimer**: The BrowserView API is now deprecated and has been replaced by [WebContentsView](https://www.electronjs.org/docs/latest/api/web-contents-view). While the API differs slightly, the core idea remains the same. I’ll be referring to BrowserView throughout this post, as it’s easier for me to explain the concepts and show some snippets.*
+<Disclaimer>
+The BrowserView API is now deprecated and has been replaced by [WebContentsView](https://www.electronjs.org/docs/latest/api/web-contents-view). While the API differs slightly, the core idea remains the same. I’ll be referring to BrowserView throughout this post, as it’s easier for me to explain the concepts and show some snippets.*
+</Disclaimer>
 
 
 
@@ -218,7 +224,7 @@ This way we can overlay BrowserViews on top of each other as much as we like by 
 
 * **Performance** was noticeably slow when opening new windows. To make it feel instant, we pre-opened a few empty windows and reused them instead of calling window.open every time a dropdown was opened.
 
-* Unfortunately there’s no z-index for **layering BrowserViews**. The only way to control stacking is by using `mainWindow.setTopBrowserView(view)`, which gets a bit tricky when managing multiple layers.  In the end, we added a `z-index` to the BrowserView in our forked version of ElectronJS.
+* Unfortunately there’s no z-index for **layering BrowserViews**. The only way to control stacking is by using `mainWindow.setTopBrowserView(view)`, which gets a bit tricky when managing multiple layers.  In the end, we added `zIndex` property to the BrowserView in our forked version of ElectronJS.
 
 
 

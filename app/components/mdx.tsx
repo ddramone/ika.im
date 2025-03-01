@@ -60,6 +60,14 @@ function Code({ children, ...props }) {
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
 }
 
+function Disclaimer({ children }) {
+  return (
+    <div className="disclaimer">
+      {children}
+    </div>
+  )
+}
+
 function slugify(str) {
   return str
     .toString()
@@ -104,6 +112,7 @@ let components = {
   a: CustomLink,
   code: Code,
   Table,
+  Disclaimer,
 }
 
 export function CustomMDX(props) {
