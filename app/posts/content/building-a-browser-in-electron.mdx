@@ -2,100 +2,163 @@
 title: 'Building a Browser using ElectronJS'
 publishedAt: '2025-02-09'
 summary: 'How we built a browser in ElectronJS using BrowserViews.'
-home-image: '/images/bitmasking/toggling-switches.svg'
-image: '/images/bitmasking/og-bitmasking.png'
+home-image: '/images/stack-browser/electron-framed.svg'
+image: '/images/bitmasking/og-electron-framed.png'
 ---
 
-<Image src="/images/bitmasking/toggling-switches.svg" alt="podium" width={653} height={399} placeholder="empty"  />
-
---- 
 
 This post is about how we at Stack built a browser using [ElectronJS](https://www.electronjs.org/).
 
-If you’re curious about why we chose ElectronJS in the first place, I’ve written about our journey here: [Technology Behind Stack Browser](https://www.ika.im/posts/tech-behind-stack-browser)
+If you're curious why we chose ElectronJS in the first place, I've written about our journey here: [Technology Behind Stack Browser](https://www.ika.im/posts/tech-behind-stack-browser)
 
-I’ll skip the basics and assume you’re already familiar with ElectronJS and how the main and renderer processes work.
+I'll skip the basics and assume you're already familiar with ElectronJS and how the main and renderer processes work.
 
-Alright, let’s dive in.
+Alright, let's dive in.
 
-## What is a BrowserView
+## How to display web content
 
-In ElectronJS, most UI elements are part of the renderer process - they’re regular HTML, CSS, and JavaScript running locally.
 
-But when building a browser, we need a way to display web content that user visits, something similar to how Chrome renders pages in its tabs. In Electron a [BrowserView](https://www.electronjs.org/docs/latest/api/browser-view) component is the best option.
+In Electron, UI typically lives in the renderer process as a  standard web app. However, when building a browser, we need to display the content of websites that users visit. For this the [BrowserView](https://www.electronjs.org/docs/latest/api/browser-view) component is the best option.
 
-That wasn’t always the case, though. In the past, the only option was the `<WebView>` tag (which works like an iframe). If you want to learn more why BrowserView is a better alternative, I recommend to read following posts from Figma and Slack:
+That wasn’t always the case, though. In the past, the only option was the `<WebView>` tag (which worked like an iframe). If you’re curious why BrowserView is a better alternative, Figma and Slack have good posts about it:
 * [Figma - Introducing BrowserView for Electron
 ](https://www.figma.com/blog/introducing-browserview-for-electron/)
 * [Slack - Migrating to BrowserView](https://slack.engineering/growing-pains-migrating-slacks-desktop-app-to-browserview/)
 
-- - -
+## What is a BrowserView
 
-A **BrowserView** is a native component managed by the main process. You can position it on the screen by giving coordinates and a size. And it loads web content.
+A **BrowserView** is a native component managed by the main process. You can position it on the screen by giving coordinates and a size. And it can load a web content. That’s essentially all it can do.
 
 ```ts
-import { BaseWindow, WebContentsView } from 'electron'
-const win = new BaseWindow(...)
+const { app, BrowserView, BrowserWindow } = require('electron')
 
-const view = new WebContentsView()
-win.contentView.addChildView(view1)
+app.whenReady().then(() => {
+  const win = new BrowserWindow({ ... })
 
-view.webContents.loadURL('https://google.com')
-view.setBounds({ x: 0, y: 0, width: 400, height: 400 })
+  const view = new BrowserView()
+  win.setBrowserView(view)
+  
+  view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
+  view.webContents.loadURL('https://electronjs.org')
+})
 ```
 
-The key thing to understand here is that a **BrowserView sits on top of all UI elements**, meaning it will render the web content above everything else.
+A key thing to understand is that the BrowserView sits above everything else, which means the entire UI running as a web app in the renderer process gets buried behind it.
 
-Why does this matter? Because any UI elements that should appear over web content - like dropdowns, a command bar, a floating sidebar - **can not** be part of the document running in the renderer process.
+<Image src="/images/stack-browser/floating-browserview.png" alt="Extensions Dropdown" width={993} height={732} />
 
+UI elements that need to appear above the web-site content - such as dropdowns, command bars, or floating sidebars - cannot be part of the document running in the renderer process.
 
-- [ ] TODO: Illustration
-
-This post is all about how we solved this challenge.
+This post is purely about how we solved this challenge.
 
 ***Disclaimer**: The BrowserView API is now deprecated and has been replaced by [WebContentsView](https://www.electronjs.org/docs/latest/api/web-contents-view). While the API differs slightly, the core idea remains the same. I’ll be referring to BrowserView throughout this post, as it’s easier for me to explain the concepts and show some snippets.*
 
 
+
 ## Layering UI elements
 
-In a regular web app, layering elements - like dropdowns or modals - is simple because everything exists within the same document flow. But when BrowserView sits above everything else, things get tricky.
+In a regular web app, layering elements is simple because everything exists within the same document flow, and you can control the stacking order with z-index. But when a BrowserView sits above everything else, things get tricky. 
 
-Let’s take a simple example - the settings dropdown like in Chrome. The button that triggers a dropdown to open is part of the renderer process, just like any other UI element. But how do we make sure the dropdown appears above the web content instead of getting buried behind the BrowserView?
+Let’s take a simple example: we want to build a browser that only displays one website. It features a topbar, with a dropdown menu in the right corner. *(This is actual MVP that we created in the beginning)*
 
 
-// illustration
+At first we created a simple web app in the renderer process with only a `<Topbar>` component positioned at the top, occupying 50px in height.
 
-Guess what: **use another BrowserView**
+
+Then, in the main process, we created a `BrowserView` instance that occupies the remaining screen space, starting just below the topbar.
+
+The button to open a dropdown is part of our Topbar component.  But how do we make sure that the dropdown content doesn’t get buried behind the BrowserView?
+
+<Image src="/images/stack-browser/floating-dropdown-problem.png" alt="Extensions Dropdown" width={993} height={732} />
+
+
+Guess what... **we used another BrowserView**
 
 BrowserViews are great for displaying websites, but they can actually render any web content.
 
-This means we can create another BrowserView, position it precisely where the dropdown should appear, and use it to render only the dropdown’s content.
+This means we could create a new BrowserView, position it precisely where the dropdown should appear, and use it to render only the dropdown’s content.
 
-For our MVP, we built a separate `dropdown.html` file with its own styles, just like a standalone webpage. Then, we created a second BrowserView with a transparent background, loaded our `dropdown.html`, and positioned it directly on top of the existing BrowserView that was displaying the website content.
+For our MVP, we created a separate `dropdown.html` file with its own styles, just like a standalone webpage. Then, we created a second BrowserView with a transparent background, loaded our `dropdown.html`, and positioned it directly on top of the existing BrowserView that was displaying the website content.
+
+<Image src="/images/stack-browser/dropdown-as-a-new-broweserview.png" alt="Extensions Dropdown" width={608} height={240} />
 
 This opened new doors. We could create BrowserViews for every floating UI element. But as you might imagine it comes with a whole chain of challenges: 
 
 * **How to distribute different parts of the UI in BrowserViews?** How do they communicate with each other? How do you keep their states in sync?
 
-	For example, say we put a command bar in one BrowserView. Command bar allows user to select a tab. The sidebar, which is in another BrowserView, needs to update and highlight the newly selected tab icon. How do we make that happen smoothly?
+	For example, say we have a dropdown item to toggle dark mode. When the user clicks it, the topbar should switch to dark. How do we ensure this happens smoothly?
 
 	Managing these interactions becomes a major architectural challenge — one that requires a solid strategy for state management and cross-view communication.
 
 * **How to manage the layout**. BrowserView only allows us to set its size and position on the screen, but that’s about it. Unlike regular HTML elements, there’s no built-in layout system, no CSS flexbox, no z-index. Manually updating coordinates every time something changes quickly becomes a nightmare.
 
-	Instead of manually setting sizes and coordinates for every BrowserView, we wanted a system that could dynamically adjust everything based on the app’s structure — just like how a web page automatically lays out elements.
+	Instead hardcoding sizes and coordinates for every BrowserView, we wanted a system that could dynamically adjust everything based on the app’s structure.
 
 This problems are independent from each other, but let’s start with the first one: 
 
 ## Distributing UI Across BrowserViews
 
-As already mentioned, BrowserView can display any web content — it can load a URL, render a local HTML file, or even **reuse an existing [WebContents](https://www.electronjs.org/docs/latest/api/web-contents) instance**, if you have one.
+As already mentioned, BrowserView can display any web content — it can load a URL, render a local HTML file, or even **reuse an existing [WebContents](https://www.electronjs.org/docs/latest/api/web-contents) instance**.
 
-Meanwhile, in the renderer process, we can create new windows using `window.open()`. Normally this opens a separate window with its own WebContents.
+Meanwhile, in the renderer process, we can create new windows using `window.open()`. Normally this opens a separate window, but we only need its `WebContents` instance.
 
-*but, here’s the trick*:
+By combining these two pieces of the puzzle here’s what we do:
 
-Instead of letting `window.open()` to create an actual window, we can intercept it in the main process, take its WebContents, embed it into a **BrowserView** instead, and position it based on your needs.
+- We have one React web app running in the renderer. This app opens bunch of windows for each floating ui element using `window.open()` and projects DOM in those windows.
+- In the main process we intercept opening windows before they appear, steal their `WebContent` instances, and instead we put them into their own BrowserViews and position precisely where we want.
+
+Ok, let’s go through this steps in more details.
+
+### Distribute UI in sub windows 
+
+In JavaScript, the parent window has full access to the document of opened child windows.
+
+```
+const dropdownWindow = window.open('');
+dropdownWindow.document.body.innerText = 'Yoo from the parent';
+```
+
+Using [React Portals](https://react.dev/reference/react-dom/createPortal) it gets more interesting. You can project any part of the React component in another window.
+
+
+Take a look at the following example.
+
+```ts
+function Topbar() {
+ 
+ const [isDark, toggleTheme] = useReducer(s => !s, false);
+ 
+ return <Container dark={isDarkMode}>
+  <Title>...</Title>
+ 
+  <Dropdown>
+   <Dropdown.Trigger>...</Dropdown.Trigger>
+
+   //👇👇👇
+   <PortalWindow>
+    <Dropdown.Content>
+     <Button onClick={toggleTheme}>Toggle Dark Mode</Button>
+    </Dropdown.Content>
+   <PortalWindow>
+  </Dropdown>
+
+ </Container>
+}
+```
+
+
+
+In this snippet, we have a `<Topbar>` component containing both the dropdown trigger and the dropdown content. The dropdown trigger is part of the topbar as expected, but the dropdown content is rendered in a new window. This is achieved by wrapping the dropdown content inside our custom `<PortalWindow>` component, which moves it out of the normal document flow and into a separate window.
+
+[This article by David Gilbertson explains the technique very nicely](https://david-gilbertson.medium.com/using-a-react-16-portal-to-do-something-cool-2a2d627b0202)
+
+This way we don’t need to create separate `dropdown.html` file, instead it simply becomes one small part of a component.
+
+Now let’s move to the second part of the puzzle:
+
+## Intercepting window.open in the main process
+
+Instead of letting `window.open()` to create an actual window, we intercept it in the main process, take its WebContents, embed it into a **BrowserView** instead and position it based on our needs.
 
 ```js
 // in the renderer process:
@@ -124,57 +187,41 @@ mainWindow.webContents.addListener(
 
 The `-add-new-contents` event isn’t officially documented, but it works. It was [introduced by @sentialx](https://github.com/electron/electron/pull/26802), who has made many great contributions to Electron, particularly for building browsers.
 
-> We use frame name (second argument of the `window.open` method) to identify windows and then abstract some methods like resize, close, move around etc...
-
-- - -
-
-Now, intercepting `window.open()` and turning it into a BrowserView is only half of the puzzle. The other half is actually rendering the dropdown content inside of it.
-
-In JavaScript, the parent window has full access to the DOM of a newly opened child windows.
-
-```
-const dropdownWindow = window.open('');
-dropdownWindow.document.body.innerText = 'Yoo from the parent';
-```
-
-Try to run this script in the console. It’ll open a new window with an updated body text.
-
-This means we don’t need separate `dropdown.html`. We can dynamically inject the UI from the main app itself.
-
-Using [React Portals](https://react.dev/reference/react-dom/createPortal) this becomes even easier. Instead of manually manipulating the DOM, you can render React components inside another window while keeping everything in sync with your app state.
-
-[This article by David Gilbertson explains how to do it with some demos](https://david-gilbertson.medium.com/using-a-react-16-portal-to-do-something-cool-2a2d627b0202)
 
 ### Putting it all together
 
-Combining these two tricks we ended up with following:
-
-* We have one React app running in the renderer process. - same way you’d normally use electronJS.
-* We have a `<Dropdown>` component.
-* We wrap our dropdown component in the `<Portal>` component - which creates a new window under the hood and puts its children in the new window.
+* We have one React app running in the renderer process, the way you’d normally use Electron.
+* This app holds the entire UI state and behaves like a regular web app.
+* It opens bunch of windows for each floating UI component - like dropdown, modals, tooltips, sidebar - by simply wrapping them  inside `<PortalWindow`>
 * In the main process, we intercept opening a window before it appears, steal its `WebContent` and put it into a new `BrowserView`
 * And  we position the `BrowserView` where it belongs.
 
-We ended up having a React application running in the renderer process. This application holds the entire UI state and behaves like a regular web app. But instead of rendering everything inside the main document, it opens bunch of windows and displays different parts of the UI in those windows.
+This way we can overlay BrowserViews on top of each other as much as we like by having our dev experience to be *almost* identical to normal web app development.
+
 
 ### Few additional gotchas:
 
-* The new windows we create don’t automatically **inherit styles** from our main app. Even though the components inside them work fine, they look completely unstyled.
+* The new windows we create don’t automatically **inherit styles** from our main app. Even though the components inside them work fine, they look completely unstyled html.
 
-	We used **Styled Components**, which provides an easy way to inject styles of the specific dom tree into given element instead of `<head>` .
+	We used **Styled Components**, which provides an easy way to inject styles of the specific DOM tree into given element instead of main documents `<head>`. So the solution to this problem was simply a “one-liner”.
 
 	```ts
+	// in our PortalWindow.ts
 	<StyleSheetManager target={myWindow.document.head}>
 	  {createPortal(children, myWindow.document.body)}
 	</StyleSheetManager>
 	```
 
-* Another challenge was registering **global keyboard shortcuts**. We had to make sure that all windows captured keystrokes individually. We solved this by listening to `before-input-event` in the main process, but there are possibly other ways.
-* **Debugging** was pretty much the same as in any web app. The only difference was that we had to open DevTools for the right window when inspecting styles.
+* Another challenge was registering **global keyboard shortcuts**. We had to make sure that all windows captured keystrokes individually, because depending where you click different window gets activated. We solved this by listening to `before-input-event` in the main process, but there are possibly other ways.
+
+* **Debugging** is pretty much the same as in a normal web app. The only difference is that we had to make sure to open  a dev tools of the right “window” when inspecting styles. Not a big deal.
+
 * **Performance** was noticeably slow when opening new windows. To make it feel instant, we pre-opened a few empty windows and reused them instead of calling window.open every time a dropdown was opened.
 
-* Unfortunately there’s no z-index for **layering BrowserViews**. The only way to control stacking is by using `mainWindow.setTopBrowserView(view)`, which gets a bit tricky when managing multiple layers.  In the end, we added a z-index to the BrowserView in our forked version of ElectronJS.
+* Unfortunately there’s no z-index for **layering BrowserViews**. The only way to control stacking is by using `mainWindow.setTopBrowserView(view)`, which gets a bit tricky when managing multiple layers.  In the end, we added a `z-index` to the BrowserView in our forked version of ElectronJS.
 
 
 
-## TODO: Yoga
+## Layout Management
+
+// TBD

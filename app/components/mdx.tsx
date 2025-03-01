@@ -45,7 +45,14 @@ function CustomLink(props) {
 }
 
 function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />
+  // Determine if the image should be shown at a larger width
+  // If width prop is larger than a threshold or if isWide prop is explicitly set
+  const isWide = props.width > 800 || props.isWide;
+  
+  // Apply appropriate className based on image size
+  const className = `rounded-lg ${isWide ? 'wide-image' : ''}`;
+  
+  return <Image alt={props.alt} className={className} {...props} />
 }
 
 function Code({ children, ...props }) {

@@ -83,6 +83,36 @@ html {
   @apply m-0;
 }
 
+/* Wide image styling - break out of column constraints */
+.prose .wide-image {
+  @apply relative -mx-8 sm:-mx-12 md:-mx-16 lg:-mx-20 xl:-mx-24 max-w-none;
+  width: calc(100% + 3rem) !important;
+}
+
+@media (min-width: 640px) {
+  .prose .wide-image {
+    width: calc(100% + 6rem) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .prose .wide-image {
+    width: calc(100% + 8rem) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .prose .wide-image {
+    width: calc(100% + 10rem) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .prose .wide-image {
+    width: calc(100% + 12rem) !important;
+  }
+}
+
 .prose p {
   @apply my-4 text-neutral-800;
 }
