@@ -230,4 +230,103 @@ This way we can overlay BrowserViews on top of each other as much as we like by 
 
 ## Layout Management
 
-// TBD
+UI of Stack Browser is quite complex. We ended up having all our UI elements in their own BrowserViews. This includes topbars, spacebar, modals, dropdowns, tooltips, command bar, event a small bar for link previews, and many other elements. 
+
+As you might imagine, managing positions of all these elements by simply hardcoding would be a nightmare.
+
+<Image src="/images/stack-browser/stack-browser-ui-elements.png" alt="Extensions Dropdown" width={993} height={732} />
+
+To solve this, we used [Facebook Yoga](https://www.yogalayout.dev/docs/about-yoga) layout engine with a flavor similar to React Native.
+
+
+## Using Facebook Yoga
+Yoga provides a javascript API to describe a layout of nodes using flexbox-like syntax. Based on this description, then you can calculate positions and sizes of any node.
+
+API looks like this:
+
+```
+import Yoga, {Edge, FlexDirection, PositionType} from 'yoga-layout';
+
+const root = Yoga.Node.create();
+root.setFlexDirection(FlexDirection.Row);
+root.setWidth(100);
+root.setHeight(100);
+
+const child0 = Yoga.Node.create();
+child0.setFlexGrow(1);
+child0.setMargin(Edge.Right, 10);
+root.insertChild(child0, 0);
+
+const child1 = Yoga.Node.create();
+child1.setFlexGrow(1);
+root.insertChild(child1, 1);
+```
+
+We created `<View>` component to abstract yoga node creation. `<View>` can be nested to create complex layouts. Then we always use `<BrowserView>` component as a direct child of `<View>`. It calculates size and position of its parent `<View>` yoga node and applies it to the BrowserView instance in the main process sending them via ipc.
+
+```tsx
+<View ...>
+  <View ...>
+    <View ...>
+      <BrowserView />
+    </View>
+  </View>
+</View>
+```
+
+## How it works in practice
+
+Following snippet shows the simplified layout of Stack Browser with two cards aligned horizontally and a spacebar at the bottom. Card consists of a topbar and a webview. 
+
+```tsx
+function Layout() {
+  return <View style={{flex: 1, flexDirection: 'column', padding: 10, gap: 10}}>
+
+    // split screen with two cards
+    <View style={{flex: 1, flexDirection: 'row', gap: 10}}>
+      <Card />
+      <Card />
+    </View>
+
+    // spacebar
+    <View style={{ width: '100%', height: 80 }}>
+      <BrowserWindow>
+        <Spacebar />
+      </BrowserWindow>
+    </View>
+
+  </View>
+}
+
+function Card({children}: {children: React.ReactNode}) {
+  return <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+
+    // topbar
+    <View style={{width: '100%', height: 50 }}>
+      <BrowserWindow>
+        <Topbar />
+      </BrowserWindow>
+    </View>
+
+    // website content
+    <View style={{width: '100%', height: 'auto' }}>
+      <WebView href="https://www.google.com" />
+    </View>
+  </View>
+}
+```
+
+Each topbar and a spacebar are projected into their own BrowserView instances, because they're wrapped in `<BrowserWindow>` tags.
+
+`<WebView`> tag from the snippet is our custom component that communicates with the main process to position itself in the right places and load the website content. Main process applies this options to the `BrowserView` instance used for loading websites with isolated partition.
+
+
+- - -
+
+ElectronJS presents tons of challenges when constructing a multi-view browser. Using these techniques we were able to achieve a flexible, performant, and maintainable architecture. 
+Special thankx to [Felix Rieseberg](https://felixrieseberg.com/) and [Sam Maddock](https://bsky.app/profile/samuelmaddock.com) for helping us to navigate through this maze.
+
+
+
+
+
