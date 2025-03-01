@@ -262,7 +262,7 @@ child1.setFlexGrow(1);
 root.insertChild(child1, 1);
 ```
 
-We created `<View>` component to abstract yoga node creation. `<View>` can be nested to create complex layouts. Then we always use `<BrowserView>` component as a direct child of `<View>`. It calculates size and position of its parent `<View>` yoga node and applies it to the BrowserView instance in the main process sending them via ipc.
+We created `<View>` component to abstract yoga node creation. `<View>` can be nested to create complex layouts. Then we always use `<BrowserView>` component as a direct child of `<View>`. It grabs the size and position of its parent `<View>` yoga node and applies it to the BrowserView instance by sending them to the main process via ipc.
 
 ```tsx
 <View ...>
