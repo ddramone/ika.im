@@ -110,8 +110,9 @@ Meanwhile, in the renderer process, we can create new windows using `window.open
 
 By combining these two pieces of the puzzle here’s what we do:
 
-- We have one React web app running in the renderer. This app opens bunch of windows for each floating ui element using `window.open()` and projects DOM in those windows.
-- In the main process we intercept opening windows before they appear, steal their `WebContent` instances, and instead we put them into their own BrowserViews and position precisely where we want.
+* When the user clicks the dropdown trigger, a new window opens, and the dropdown content is rendered inside it.
+
+* In the main process, we intercept the window creation before it appears, extract its `WebContents` instance, and embed it into a separate BrowserView, positioning it exactly where needed.
 
 Ok, let’s go through this steps in more details.
 
