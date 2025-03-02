@@ -1,6 +1,6 @@
 ---
 title: 'Building a Browser using ElectronJS'
-publishedAt: '2025-02-09'
+publishedAt: '2025-03-02'
 summary: 'How we built a browser in ElectronJS using BrowserViews.'
 home-image: '/images/stack-browser/electron-framed.svg'
 image: '/images/bitmasking/og-electron-framed.png'
@@ -34,10 +34,10 @@ That wasn’t always the case, though. In the past, the only option was the `<We
 A **BrowserView** is a native component managed by the main process. You can position it on the screen by giving coordinates and a size. And it can load a web content. That’s essentially all it can do.
 
 ```ts
-const { app, BrowserView, PortalWindow } = require('electron')
+const { app, BrowserView, BrowserWindow } = require('electron')
 
 app.whenReady().then(() => {
-  const win = new PortalWindow({ ... })
+  const win = new BrowserWindow({ ... })
 
   const view = new BrowserView()
   win.setBrowserView(view)
@@ -48,8 +48,6 @@ app.whenReady().then(() => {
 ```
 
 A key thing to understand is that the BrowserView sits above everything else, which means the entire UI running as a web app in the renderer process gets buried behind it.
-
-<Image src="/images/stack-browser/floating-browserview.png" alt="Extensions Dropdown" width={993} height={732} />
 
 UI elements that need to appear above the web-site content - such as dropdowns, command bars, or floating sidebars - cannot be part of the document running in the renderer process.
 
